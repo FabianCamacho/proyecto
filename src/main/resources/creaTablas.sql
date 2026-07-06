@@ -14,11 +14,11 @@ create user 'usuario_reportes'@'%' identified by 'Usuar1o_Reportes.';
 
 -- Asignación de permisos
 -- Se otorgan permisos específicos en lugar de todos los permisos a todas las tablas futuras
-grant select, insert, update, delete on techshop.* to 'usuario1'@'%';
+grant select, insert, update, delete on super_sting.* to 'usuario1'@'%';
 grant select on superSting.* to 'usuario_reportes'@'%';
 flush privileges;
 
-use superSting;
+use super_Sting;
 
 -- --- Sección de Creación de Tablas ---
 
@@ -158,10 +158,10 @@ INSERT INTO categoria (descripcion,ruta_imagen,activo) VALUES
 ('Frutas y verduras', 'https://petitfitbycris.com/wp-content/uploads/2019/09/frutas-y-verduras.jpg',   true), 
 ('Lacteos',  'https://clubdelicatessen.com/wp-content/uploads/2021/05/productos-lacteos.jpg',   true),
 ('Bebidas','https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fyyr6vtruhzbb1.jpg',true),
-('Panaderia','https://thefoodtech.com/wp-content/uploads/2023/10/PANADERIA-PRINCIPAL-1.jpg',    false);
-('Snacks','https://m.media-amazon.com/images/I/91yD-ngFa5L._SL1500_.jpg',    false);
-('Limpieza','https://m.media-amazon.com/images/I/91yD-ngFa5L._SL1500_.jpg',    false);
-('Higiene','https://nadro.mx/wp-content/uploads/2022/10/Pruductos-de-higiene.jpg',    false);
+('Panaderia','https://thefoodtech.com/wp-content/uploads/2023/10/PANADERIA-PRINCIPAL-1.jpg',    false),
+('Snacks','https://m.media-amazon.com/images/I/91yD-ngFa5L._SL1500_.jpg',    false),
+('Limpieza','https://m.media-amazon.com/images/I/91yD-ngFa5L._SL1500_.jpg',    false),
+('Higiene','https://nadro.mx/wp-content/uploads/2022/10/Pruductos-de-higiene.jpg',    false),
 ('Abarrotes','https://comerciante.lacuarta.com/wp-content/uploads/2023/04/Tema-02-abarrotes.jpg',    false);
 
 -- Inserción de productos
