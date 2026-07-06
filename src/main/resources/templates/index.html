@@ -1,17 +1,62 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    
+      xmlns:th="http://www.thymeleaf.org">
+
     <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-   <header th:replace="~{general/fragmentos :: header}"></header>
-   
-   <section th:replace="~{consultas/fragmentos :: tabs}"/>
-   <section th:replace="~{consultas/fragmentos :: tarjetas}"/>
-   
-   
-   <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <!-- Banner principal -->
+        <section class="container py-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-6">
+
+                    <h1 class="display-5 fw-bold">
+                        LA MEJOR CALIDAD Y FRESCURA
+                    </h1>
+
+                    <h2 class="mb-4">
+                        AL MEJOR PRECIO
+                    </h2>
+
+                    <p class="lead">
+                        Encuentra todo lo que necesitas para tu hogar
+                        en un solo lugar.
+                    </p>
+
+                    <a th:href="@{/producto/listado}" class="btn btn-success btn-lg me-2">
+                        Comprar ahora
+                    </a>
+
+                    <a href="#" class="btn btn-outline-success btn-lg">
+                        Ver ofertas
+                    </a>
+
+                </div>
+
+                <div class="col-md-6 text-center">
+
+                    <img src="/img/banner.jpg"
+                         class="img-fluid rounded"
+                         alt="Banner"/>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section th:replace="~{consultas/fragmentos :: tabs}"></section>
+
+        <section th:replace="~{consultas/fragmentos :: tarjetas}"></section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
+
 </html>
