@@ -17,6 +17,7 @@
 <!-- Fragmento #2  define el encabezado de las páginas, en concreto el menú y enlaces rápidos -->
 <header th:fragment="header" class="header">
 
+
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 
         <div class="container">
@@ -104,7 +105,9 @@
 
                     </li>
 
-                    <li class="nav-item px-2">
+                    <!-- Si NO ha iniciado sesión -->
+                    <li class="nav-item px-2"
+                        th:if="${session.usuarioLogueado == null}">
 
                         <a class="nav-link" th:href="@{/sesion/listado}">
 
@@ -113,6 +116,52 @@
                             Login
 
                         </a>
+
+                    </li>
+
+                    <!-- Si YA inició sesión -->
+                    <li class="nav-item dropdown"
+                        th:if="${session.usuarioLogueado != null}">
+
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown">
+
+                            <i class="fas fa-user-circle me-2"></i>
+
+                            [[${session.usuarioLogueado.nombre}]]
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+
+                                <span class="dropdown-item-text fw-bold">
+
+                                    [[${session.usuarioLogueado.username}]]
+
+                                </span>
+
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+
+                                <a class="dropdown-item"
+                                   th:href="@{/sesion/logout}">
+
+                                    <i class="fas fa-right-from-bracket me-2"></i>
+
+                                    Cerrar sesión
+
+                                </a>
+
+                            </li>
+
+                        </ul>
 
                     </li>
 
@@ -164,39 +213,98 @@
 
 <!-- Fragmentos #4 define una ventana tipo Toast para mostrar mensajes al usuario -->
 <section th:fragment="mostrarToast">
-    <div aria-live="polite" aria-atomic="true" 
-         class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">                
-        <div th:if="${error}" class="toast show"
+
+    <div class="position-fixed top-50 start-50 translate-middle"
+         style="z-index:9999;">
+
+        <!-- ERROR -->
+        <div th:if="${error}"
+             class="toast show border-0 shadow-lg"
              role="alert"
-             aria-live="assertive"                     
+             aria-live="assertive"
              aria-atomic="true"
-             data-bs-autohide="true">
-            <div class="toast-header text-white bg-danger">
-                <i class="fa-solid fa-bomb"></i> <strong clas=me-auto> [[#{error}]]</strong>
+             data-bs-autohide="false"
+             style="min-width:380px; background:white;">
+
+            <div class="toast-header bg-danger text-white">
+
+                <i class="fas fa-circle-exclamation me-2"></i>
+
+                <strong class="me-auto">
+                    ¡Error!
+                </strong>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="toast"></button>
+
             </div>
+
             <div class="toast-body">
-                <p>[[${error}]]</p>
-                <div class="mt-2 pt-2 border-top text-center">
-                    <button type="button" class="btn btn-secondary btn-sm" 
-                            data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+
+                <p class="mb-3">
+                    [[${error}]]
+                </p>
+
+                <div class="text-end">
+
+                    <button class="btn btn-danger"
+                            data-bs-dismiss="toast">
+
+                        Cerrar
+
+                    </button>
+
                 </div>
+
             </div>
+
         </div>
-        <div th:if="${todoOk}" class="toast show"
-             role="status"
+
+        <!-- EXITO -->
+        <div th:if="${todoOk}"
+             class="toast show border-0 shadow-lg"
+             role="alert"
              aria-live="polite"
              aria-atomic="true"
-             data-bs-autohide="true">
-            <div class="toast-header text-white bg-success">
-                <i class="fa-solid fa-square-check"></i> <strong clas=me-auto> [[#{atencion}]]</strong>
+             data-bs-autohide="false"
+             style="min-width:380px; background:white;">
+
+            <div class="toast-header bg-success text-white">
+
+                <i class="fas fa-circle-check me-2"></i>
+
+                <strong class="me-auto">
+                    Éxito
+                </strong>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="toast"></button>
+
             </div>
+
             <div class="toast-body">
-                <p>[[${todoOk}]]</p>
-                <div class="mt-2 pt-2 border-top text-center">
-                    <button type="button" class="btn btn-secondary btn-sm" 
-                            data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+
+                <p class="mb-3">
+                    [[${todoOk}]]
+                </p>
+
+                <div class="text-end">
+
+                    <button class="btn btn-success"
+                            data-bs-dismiss="toast">
+
+                        Aceptar
+
+                    </button>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
