@@ -129,7 +129,7 @@
 </section>
 
 
-<!-- Fragmento 4 Ventas  -->
+<!-- Fragmento 4: Consultas / Reportes -->
 
 <section th:fragment="ventas" class="container py-4">
 
@@ -138,104 +138,230 @@
         <div class="card-header bg-primary text-white">
 
             <h3 class="mb-0">
-                <i class="fas fa-cash-register me-2"></i>
-                Registro de Ventas
+                <i class="fas fa-chart-column me-2"></i>
+                Reportes de Productos
             </h3>
 
         </div>
 
         <div class="card-body">
 
-            <div class="row">
+            <!-- ================================================= -->
+            <!-- CONSULTA POR RANGO DE PRECIOS -->
+            <!-- ================================================= -->
 
-                <div class="col-md-6">
+            <div class="card mb-4">
 
-                    <label class="form-label">Producto</label>
+                <div class="card-header">
 
-                    <select class="form-select">
-
-                        <option>Seleccione un producto</option>
-
-                        <option th:each="p : ${productos}">
-                            [[${p.descripcion}]]
-                        </option>
-
-                    </select>
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>
+                        Consulta por rango de precios
+                    </h5>
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="card-body">
 
-                    <label class="form-label">Cantidad</label>
+                    <form class="row g-3"
+                          method="post">
 
-                    <input type="number"
-                           class="form-control"
-                           value="1"
-                           min="1">
+                        <div class="col-md-4">
 
-                </div>
+                            <label class="form-label">
+                                Precio mínimo
+                            </label>
 
-                <div class="col-md-3 d-flex align-items-end">
+                            <input type="number"
+                                   name="precioInf"
+                                   class="form-control"
+                                   step="0.01"
+                                   min="0"
+                                   th:value="${precioInf}"
+                                   required>
 
-                    <button class="btn btn-success w-100">
+                        </div>
 
-                        <i class="fas fa-plus-circle me-2"></i>
+                        <div class="col-md-4">
 
-                        Agregar
+                            <label class="form-label">
+                                Precio máximo
+                            </label>
 
-                    </button>
+                            <input type="number"
+                                   name="precioSup"
+                                   class="form-control"
+                                   step="0.01"
+                                   min="0"
+                                   th:value="${precioSup}"
+                                   required>
+
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end">
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100"
+                                    formaction="/consultas/consultaDerivada">
+
+                                <i class="fas fa-magnifying-glass me-2"></i>
+                                Consulta derivada
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
             </div>
 
-            <hr>
 
-            <h5>Productos seleccionados</h5>
+            <!-- ================================================= -->
+            <!-- OPCIONES DE CONSULTA -->
+            <!-- ================================================= -->
 
-            <table class="table table-hover">
+            <div class="row mb-4">
 
-                <thead>
+                <div class="col-md-6">
 
-                    <tr>
+                    <form method="post"
+                          action="/consultas/consultaJPQL">
 
-                        <th>Producto</th>
+                        <input type="hidden"
+                               name="precioInf"
+                               th:value="${precioInf}">
 
-                        <th>Cantidad</th>
+                        <input type="hidden"
+                               name="precioSup"
+                               th:value="${precioSup}">
 
-                        <th>Precio</th>
+                        <button type="submit"
+                                class="btn btn-success w-100">
 
-                        <th>Total</th>
+                            <i class="fas fa-database me-2"></i>
+                            Consulta JPQL
 
-                    </tr>
+                        </button>
 
-                </thead>
+                    </form>
 
-                <tbody>
+                </div>
 
-                    <tr>
+                <div class="col-md-6">
 
-                        <td colspan="4" class="text-center">
+                    <form method="post"
+                          action="/consultas/consultaSQL">
 
-                            No hay productos agregados.
+                        <input type="hidden"
+                               name="precioInf"
+                               th:value="${precioInf}">
 
-                        </td>
+                        <input type="hidden"
+                               name="precioSup"
+                               th:value="${precioSup}">
 
-                    </tr>
+                        <button type="submit"
+                                class="btn btn-info w-100">
 
-                </tbody>
+                            <i class="fas fa-table me-2"></i>
+                            Consulta SQL
 
-            </table>
+                        </button>
 
-            <div class="text-end">
+                    </form>
 
-                <h4>Total: ₡0.00</h4>
+                </div>
 
-                <button class="btn btn-primary btn-lg">
+            </div>
 
-                    Registrar Venta
 
-                </button>
+            <!-- ================================================= -->
+            <!-- RESULTADOS -->
+            <!-- ================================================= -->
+
+            <h5 class="mb-3">
+                <i class="fas fa-list me-2"></i>
+                Productos encontrados
+            </h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-bordered">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Producto</th>
+
+                            <th>Precio</th>
+
+                            <th>Existencias</th>
+
+                            <th>Estado</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:if="${productos == null || productos.isEmpty()}">
+
+                            <td colspan="5"
+                                class="text-center">
+
+                                No se encontraron productos.
+
+                            </td>
+
+                        </tr>
+
+                        <tr th:each="p : ${productos}">
+
+                            <td>
+                                [[${p.idProducto}]]
+                            </td>
+
+                            <td>
+                                [[${p.descripcion}]]
+                            </td>
+
+                            <td>
+                                [[${#numbers.formatCurrency(p.precio)}]]
+                            </td>
+
+                            <td>
+                                [[${p.existencias}]]
+                            </td>
+
+                            <td>
+
+                                <span th:if="${p.activo}"
+                                      class="badge bg-success">
+
+                                    Activo
+
+                                </span>
+
+                                <span th:unless="${p.activo}"
+                                      class="badge bg-secondary">
+
+                                    Inactivo
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 

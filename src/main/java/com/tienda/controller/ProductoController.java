@@ -51,7 +51,7 @@ public class ProductoController {
         if (productoOpt.isEmpty()) { // si no encuentra la producto
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage("producto.error01", null, Locale.getDefault()));
             
-            return "redirect:/categoría/listado";
+            return "redirect:/producto/listado";
         }
         model.addAttribute("producto", productoOpt.get());
           var categorias = categoriaService.getCategorias(true);

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <section class="container py-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3 class="mb-0">
+                        <i class="fas fa-cart-shopping me-2"></i>
+                        Realizar Compra
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div th:if="${productos != null and !productos.empty}">
+
+                        <h4 class="mb-3">
+                            Productos disponibles
+                        </h4>
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-4"
+                                 th:each="p : ${productos}">
+
+                                <div class="card h-100 shadow-sm">
+
+                                    <div class="text-center p-3">
+
+                                        <img th:src="@{${p.rutaImagen}}"
+                                             alt="Producto"
+                                             class="img-fluid"
+                                             style="height:150px; object-fit:contain;">
+
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <h5>
+                                            [[${p.descripcion}]]
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            [[${p.detalle}]]
+                                        </p>
+
+                                        <h5 class="text-primary">
+                                            [[${#numbers.formatCurrency(p.precio)}]]
+                                        </h5>
+
+                                        <p>
+                                            Disponibles:
+                                            <strong>[[${p.existencias}]]</strong>
+                                        </p>
+
+                                        <form th:action="@{/factura/agregar}"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="idProducto"
+                                                   th:value="${p.idProducto}"/>
+
+                                            <div class="input-group mb-3">
+
+                                                <input type="number"
+                                                       name="cantidad"
+                                                       class="form-control"
+                                                       value="1"
+                                                       min="1"
+                                                       th:max="${p.existencias}"
+                                                       required/>
+
+                                                <button type="submit"
+                                                        class="btn btn-success">
+
+                                                    <i class="fas fa-cart-plus"></i>
+                                                    Agregar
+
+                                                </button>
+
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div th:if="${productos == null or productos.empty}"
+                         class="text-center p-4">
+
+                        <h5>
+                            No hay productos disponibles.
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CARRITO -->
+
+        <section class="container pb-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h4 class="mb-0">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Mi Carrito
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div th:if="${session.carrito != null and !session.carrito.empty}">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead class="table-light">
+
+                                    <tr>
+
+                                        <th>Producto</th>
+
+                                        <th class="text-end">
+                                            Precio
+                                        </th>
+
+                                        <th class="text-center">
+                                            Cantidad
+                                        </th>
+
+                                        <th class="text-end">
+                                            Subtotal
+                                        </th>
+
+                                        <th class="text-center">
+                                            Acción
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr th:each="item : ${session.carrito}">
+
+                                        <td>
+                                            <strong>
+                                                [[${item.descripcion}]]
+                                            </strong>
+                                        </td>
+
+                                        <td class="text-end">
+                                            [[${#numbers.formatCurrency(item.precio)}]]
+                                        </td>
+
+                                        <td class="text-center">
+                                            [[${item.cantidad}]]
+                                        </td>
+
+                                        <td class="text-end">
+                                            [[${#numbers.formatCurrency(item.subtotal)}]]
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <form th:action="@{/factura/eliminar}"
+                                                  method="post">
+
+                                                <input type="hidden"
+                                                       name="idProducto"
+                                                       th:value="${item.idProducto}"/>
+
+                                                <button type="submit"
+                                                        class="btn btn-outline-danger btn-sm">
+
+                                                    <i class="fas fa-trash"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <div class="text-end mt-3">
+
+                            <form th:action="@{/factura/pagar}"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="btn btn-success btn-lg">
+
+                                    <i class="fas fa-credit-card me-2"></i>
+                                    Pagar y generar factura
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <div th:if="${session.carrito == null or session.carrito.empty}"
+                         class="text-center p-4">
+
+                        <i class="fas fa-cart-shopping fa-3x mb-3"></i>
+
+                        <h5>
+                            El carrito está vacío.
+                        </h5>
+
+                        <p class="text-muted">
+                            Agregue productos para realizar una compra.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+
+</html>

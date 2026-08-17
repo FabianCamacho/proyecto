@@ -1,310 +1,439 @@
-<!-- Fragmento #1 que irá en el head de todas las páginas, así se incluye todo lo necesario de configuración-->
-<head th:fragment="head">
-    <title>Super Sting Express</title>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png"/>
-    <link rel="icon" type="image/png" sizes="256x256" href="/fav/favicon-256x256.png"/>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script th:src="@{/js/rutinas.js}"></script>
-</head>
+<!DOCTYPE html>
 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<!-- Fragmento #2  define el encabezado de las páginas, en concreto el menú y enlaces rápidos -->
-<header th:fragment="header" class="header">
+    <head th:fragment="head">
 
+        <meta charset="UTF-8">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
 
-        <div class="container">
+                <title>SUPER STING EXPRESS</title>
 
-            <a th:href="@{/}" class="navbar-brand">
-                [[#{aplicacion.titulo}]]
-            </a>
+                <!-- Bootstrap -->
+                <link rel="stylesheet"
+                      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 
-            <button class="navbar-toggler"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
+                    <!-- Font Awesome -->
+                    <link rel="stylesheet"
+                          th:href="@{/webjars/font-awesome/css/all.min.css}">
 
-                <span class="navbar-toggler-icon"></span>
+                        <!-- CSS propio -->
+                        <link rel="stylesheet"
+                              th:href="@{/css/estilos.css}">
 
-            </button>
+                            </head>
 
-            <div class="collapse navbar-collapse justify-content-between"
-                 id="navbarCollapse">
+                            <body>
 
-                <!-- Menú principal -->
-                <ul class="navbar-nav gap-2">
+                                <!-- ========================================================= -->
+                                <!-- HEADER -->
+                                <!-- ========================================================= -->
 
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/}">
-                            <i class="fas fa-house me-2"></i>
-                            Inicio
-                        </a>
-                    </li>
+                                <header th:fragment="header"
+                                        class="header">
 
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/producto/listado}">
-                            <i class="fas fa-box me-2"></i>
-                            Productos
-                        </a>
-                    </li>
+                                    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/categoria/listado}">
-                            <i class="fas fa-list me-2"></i>
-                            Categorías
-                        </a>
-                    </li>
+                                        <div class="container">
 
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/consultas/listado}">
-                            <i class="fas fa-cash-register me-2"></i>
-                            Ventas
-                        </a>
-                    </li>
+                                            <!-- Nombre de la aplicación -->
+                                            <a th:href="@{/}"
+                                               class="navbar-brand">
 
-                    <li class="nav-item px-2">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-chart-column me-2"></i>
-                            Reportes
-                        </a>
-                    </li>
+                                                [[#{aplicacion.titulo}]]
 
-                </ul>
+                                            </a>
 
-                <!-- Idiomas y Login-->
-                <ul class="navbar-nav">
+                                            <!-- Botón menú para celular -->
+                                            <button class="navbar-toggler"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#navbarCollapse"
+                                                    aria-controls="navbarCollapse"
+                                                    aria-expanded="false"
+                                                    aria-label="Toggle navigation">
 
-                    <li class="nav-item dropdown">
+                                                <span class="navbar-toggler-icon"></span>
 
-                        <a class="nav-link dropdown-toggle"
-                           data-bs-toggle="dropdown"
-                           href="#"
-                           role="button">
+                                            </button>
 
-                            [[#{plantilla.idioma}]]
+                                            <div class="collapse navbar-collapse"
+                                                 id="navbarCollapse">
 
-                        </a>
+                                                <!-- ================================================= -->
+                                                <!-- MENÚ PRINCIPAL -->
+                                                <!-- ================================================= -->
 
-                        <ul class="dropdown-menu">
+                                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                            <li><a class="dropdown-item" th:href="@{/(lang=es)}">Español</a></li>
+                                                    <!-- INICIO -->
+                                                    <li class="nav-item">
 
-                            <li><a class="dropdown-item" th:href="@{/(lang=en)}">English</a></li>
+                                                        <a class="nav-link"
+                                                           th:href="@{/}">
 
-                            <li><a class="dropdown-item" th:href="@{/(lang=fr)}">Française</a></li>
+                                                            <i class="fas fa-house me-2"></i>
+                                                            Inicio
 
-                            <li><a class="dropdown-item" th:href="@{/(lang=pt)}">Português</a></li>
+                                                        </a>
 
-                        </ul>
+                                                    </li>
 
-                    </li>
+                                                    <!-- PRODUCTOS -->
+                                                    <!-- ADMIN Y VENDEDOR -->
+                                                    <li class="nav-item"
+                                                        sec:authorize="hasAnyRole('ADMIN', 'VENDEDOR')">
 
-                    <!-- Si NO ha iniciado sesión -->
-                    <li class="nav-item px-2"
-                        th:if="${session.usuarioLogueado == null}">
+                                                        <a class="nav-link"
+                                                           th:href="@{/producto/listado}">
 
-                        <a class="nav-link" th:href="@{/sesion/listado}">
+                                                            <i class="fas fa-box me-2"></i>
+                                                            Productos
 
-                            <i class="fas fa-user me-2"></i>
+                                                        </a>
 
-                            Login
+                                                    </li>
 
-                        </a>
+                                                    <!-- COMPRAR -->
+                                                    <li class="nav-item">
 
-                    </li>
+                                                        <a class="nav-link"
+                                                           th:href="@{/factura/listado}">
 
-                    <!-- Si YA inició sesión -->
-                    <li class="nav-item dropdown"
-                        th:if="${session.usuarioLogueado != null}">
+                                                            <i class="fas fa-cart-shopping me-2"></i>
+                                                            Comprar
 
-                        <a class="nav-link dropdown-toggle"
-                           href="#"
-                           role="button"
-                           data-bs-toggle="dropdown">
+                                                        </a>
 
-                            <i class="fas fa-user-circle me-2"></i>
+                                                    </li>
 
-                            [[${session.usuarioLogueado.nombre}]]
 
-                        </a>
+                                                    <!-- CATEGORÍAS -->
+                                                    <!-- SOLO ADMIN -->
+                                                    <li class="nav-item"
+                                                        sec:authorize="hasRole('ADMIN')">
 
-                        <ul class="dropdown-menu dropdown-menu-end">
+                                                        <a class="nav-link"
+                                                           th:href="@{/categoria/listado}">
 
-                            <li>
+                                                            <i class="fas fa-list me-2"></i>
+                                                            Categorías
 
-                                <span class="dropdown-item-text fw-bold">
+                                                        </a>
 
-                                    [[${session.usuarioLogueado.username}]]
+                                                    </li>
 
-                                </span>
+                                                    <!-- VENTAS -->
+                                                    <!-- ADMIN Y VENDEDOR -->
+                                                    <li class="nav-item"
+                                                        sec:authorize="hasAnyRole('ADMIN', 'VENDEDOR')">
 
-                            </li>
+                                                        <a class="nav-link"
+                                                           th:href="@{/consultas/listado}">
 
-                            <li><hr class="dropdown-divider"></li>
+                                                            <i class="fas fa-cash-register me-2"></i>
+                                                            Ventas
 
-                            <li>
+                                                        </a>
 
-                                <a class="dropdown-item"
-                                   th:href="@{/sesion/logout}">
+                                                    </li>
 
-                                    <i class="fas fa-right-from-bracket me-2"></i>
+                                                    <!-- REPORTES -->
+                                                    <!-- SOLO ADMIN -->
+                                                
+                                                    <li class="nav-item">
 
-                                    Cerrar sesión
+                                                        <a class="nav-link"
+                                                           th:href="@{/consultas/listado}">
 
-                                </a>
+                                                            <i class="fas fa-chart-column me-2"></i>
+                                                            Reportes
 
-                            </li>
+                                                        </a>
 
-                        </ul>
+                                                    </li>
 
-                    </li>
+                                                </ul>
 
-                </ul>
+                                                <!-- ================================================= -->
+                                                <!-- IDIOMA + LOGIN / USUARIO -->
+                                                <!-- ================================================= -->
 
-                <div id="resultBlock"></div>
+                                                <ul class="navbar-nav">
 
-            </div>
+                                                    <!-- IDIOMAS -->
+                                                    <li class="nav-item dropdown">
 
-        </div>
+                                                        <a class="nav-link dropdown-toggle"
+                                                           href="#"
+                                                           id="idiomaDropdown"
+                                                           role="button"
+                                                           data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
 
-    </nav>
+                                                            [[#{plantilla.idioma}]]
 
-    <section id="main-header"
-             class="py-2 text-white"
-             style="background:#1E3A8A;">
+                                                        </a>
 
-        <div class="container">
+                                                        <ul class="dropdown-menu"
+                                                            aria-labelledby="idiomaDropdown">
 
-            <div class="row">
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   th:href="@{/(lang=es)}">
+                                                                    Español
+                                                                </a>
+                                                            </li>
 
-                <div class="col-md-12">
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   th:href="@{/(lang=en)}">
+                                                                    English
+                                                                </a>
+                                                            </li>
 
-                    <h2 class="mb-0">
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   th:href="@{/(lang=fr)}">
+                                                                    Française
+                                                                </a>
+                                                            </li>
 
-                        <i class="fas fa-store me-2"></i>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   th:href="@{/(lang=pt)}">
+                                                                    Português
+                                                                </a>
+                                                            </li>
 
-                        SUPER STING EXPRESS
+                                                        </ul>
 
-                    </h2>
+                                                    </li>
 
-                </div>
+                                                    <!-- ================================================= -->
+                                                    <!-- LOGIN / USUARIO -->
+                                                    <!-- ================================================= -->
 
-            </div>
+                                                    <!-- Cuando NO hay sesión -->
+                                                    <li class="nav-item"
+                                                        sec:authorize="!isAuthenticated()">
 
-        </div>
+                                                        <a class="nav-link"
+                                                           th:href="@{/sesion/listado}">
 
-    </section>
+                                                            <i class="fas fa-user me-2"></i>
+                                                            Login
 
-</header>
+                                                        </a>
 
-<!-- Fragmento #3  define el footer de las páginas, aparte de esto se podria incluir enlaces a redes socilaes y demás -->
-<footer th:fragment="footer"
-        class="text-center text-white py-3"
-        style="background:#2347c6;">
-    <p class="mb-0">
-        2026 &nbsp;&nbsp; SUPER STING EXPRESS &nbsp;&nbsp; TODOS LOS DERECHOS RESERVADOS</p>
-</footer>
+                                                    </li>
 
-<!-- Fragmentos #4 define una ventana tipo Toast para mostrar mensajes al usuario -->
-<section th:fragment="mostrarToast">
+                                                    <!-- Cuando SÍ hay sesión -->
+                                                    <li class="nav-item dropdown"
+                                                        sec:authorize="isAuthenticated()">
 
-    <div class="position-fixed top-50 start-50 translate-middle"
-         style="z-index:9999;">
+                                                        <a class="nav-link dropdown-toggle"
+                                                           href="#"
+                                                           id="usuarioDropdown"
+                                                           role="button"
+                                                           data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
 
-        <!-- ERROR -->
-        <div th:if="${error}"
-             class="toast show border-0 shadow-lg"
-             role="alert"
-             aria-live="assertive"
-             aria-atomic="true"
-             data-bs-autohide="false"
-             style="min-width:380px; background:white;">
+                                                            <i class="fas fa-user me-2"></i>
 
-            <div class="toast-header bg-danger text-white">
+                                                            <span sec:authentication="name"></span>
 
-                <i class="fas fa-circle-exclamation me-2"></i>
+                                                        </a>
 
-                <strong class="me-auto">
-                    ¡Error!
-                </strong>
+                                                        <ul class="dropdown-menu dropdown-menu-end"
+                                                            aria-labelledby="usuarioDropdown">
 
-                <button type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="toast"></button>
+                                                            <li>
 
-            </div>
+                                                                <span class="dropdown-item-text">
 
-            <div class="toast-body">
+                                                                    <i class="fas fa-user me-2"></i>
 
-                <p class="mb-3">
-                    [[${error}]]
-                </p>
+                                                                    <span sec:authentication="name"></span>
 
-                <div class="text-end">
+                                                                </span>
 
-                    <button class="btn btn-danger"
-                            data-bs-dismiss="toast">
+                                                            </li>
 
-                        Cerrar
+                                                            <li>
 
-                    </button>
+                                                                <hr class="dropdown-divider">
 
-                </div>
+                                                            </li>
 
-            </div>
+                                                            <li>
 
-        </div>
+                                                                <form th:action="@{/sesion/logout}"
+                                                                      method="post"
+                                                                      class="m-0">
 
-        <!-- EXITO -->
-        <div th:if="${todoOk}"
-             class="toast show border-0 shadow-lg"
-             role="alert"
-             aria-live="polite"
-             aria-atomic="true"
-             data-bs-autohide="false"
-             style="min-width:380px; background:white;">
+                                                                    <button type="submit"
+                                                                            class="dropdown-item">
 
-            <div class="toast-header bg-success text-white">
+                                                                        <i class="fas fa-right-from-bracket me-2"></i>
 
-                <i class="fas fa-circle-check me-2"></i>
+                                                                        Cerrar sesión
 
-                <strong class="me-auto">
-                    Éxito
-                </strong>
+                                                                    </button>
 
-                <button type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="toast"></button>
+                                                                </form>
 
-            </div>
+                                                            </li>
 
-            <div class="toast-body">
+                                                        </ul>
 
-                <p class="mb-3">
-                    [[${todoOk}]]
-                </p>
+                                                    </li>
 
-                <div class="text-end">
+                                                </ul>
 
-                    <button class="btn btn-success"
-                            data-bs-dismiss="toast">
+                                            </div>
 
-                        Aceptar
+                                        </div>
 
-                    </button>
+                                    </nav>
 
-                </div>
+                                </header>
 
-            </div>
 
-        </div>
+                                <!-- ========================================================= -->
+                                <!-- FOOTER -->
+                                <!-- ========================================================= -->
 
-    </div>
+                                <footer th:fragment="footer"
+                                        class="text-center py-4">
 
-</section>
+                                    <div class="container">
+
+                                        <p class="mb-0">
+
+                                            2026 &nbsp;&nbsp;
+                                            SUPER STING EXPRESS &nbsp;&nbsp;
+                                            TODOS LOS DERECHOS RESERVADOS
+
+                                        </p>
+
+                                    </div>
+
+                                </footer>
+
+
+                                <!-- ========================================================= -->
+                                <!-- TOASTS / MENSAJES -->
+                                <!-- ========================================================= -->
+
+                                <section th:fragment="mostrarToast">
+
+                                    <div aria-live="polite"
+                                         aria-atomic="true"
+                                         class="position-fixed top-50 start-50 translate-middle"
+                                         style="z-index:1080;">
+
+                                        <!-- ERROR -->
+
+                                        <div th:if="${error}"
+                                             class="toast show"
+                                             role="alert"
+                                             aria-live="assertive"
+                                             aria-atomic="true">
+
+                                            <div class="toast-header text-white bg-danger">
+
+                                                <i class="fa-solid fa-bomb me-2"></i>
+
+                                                <strong class="me-auto">
+                                                    [[#{error}]]
+                                                </strong>
+
+                                            </div>
+
+                                            <div class="toast-body">
+
+                                                <p>
+                                                    [[${error}]]
+                                                </p>
+
+                                                <div class="mt-2 pt-2 border-top text-center">
+
+                                                    <button type="button"
+                                                            class="btn btn-secondary btn-sm"
+                                                            onclick="this.closest('.toast').remove()">
+
+                                                        [[#{accion.cerrar}]]
+
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- ÉXITO -->
+
+                                        <div th:if="${todoOk}"
+                                             class="toast show"
+                                             role="status"
+                                             aria-live="polite"
+                                             aria-atomic="true">
+
+                                            <div class="toast-header text-white bg-success">
+
+                                                <i class="fa-solid fa-square-check me-2"></i>
+
+                                                <strong class="me-auto">
+                                                    [[#{atencion}]]
+                                                </strong>
+
+                                            </div>
+
+                                            <div class="toast-body">
+
+                                                <p>
+                                                    [[${todoOk}]]
+                                                </p>
+
+                                                <div class="mt-2 pt-2 border-top text-center">
+
+                                                    <button type="button"
+                                                            class="btn btn-secondary btn-sm"
+                                                            onclick="this.closest('.toast').remove()">
+
+                                                        [[#{accion.cerrar}]]
+
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </section>
+
+
+                                <!-- ========================================================= -->
+                                <!-- SCRIPTS -->
+                                <!-- ========================================================= -->
+
+                                <div th:fragment="scripts">
+
+                                    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+                                </div>
+
+
+                            </body>
+
+                            </html>

@@ -32,4 +32,6 @@ public class Usuario implements Serializable {
     private String rutaImagen;
 
     private boolean activo;
+    
+ 
 }

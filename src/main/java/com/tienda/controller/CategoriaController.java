@@ -39,15 +39,30 @@ public class CategoriaController {
     }
 
     @GetMapping("/modificar/{idCategoria}")
-    public String modificar(@PathVariable("idCategoria") Integer idCategoria, Model model, RedirectAttributes redirectAttributes) {
-        Optional<Categoria> categoriaOpt = categoriaService.getCategoria(idCategoria);
-        if (categoriaOpt.isEmpty()) { // si no encuentra la categoria
-            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("categoria.error01", null, Locale.getDefault()));
-            return "redirect:/categoría/listado";
-        }
-        model.addAttribute("categoria", categoriaOpt.get());
-        return "/categoria/modifica";
+    public String modificar(@PathVariable("idCategoria") Integer idCategoria,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
+        Optional<Categoria> categoriaOpt
+                = categoriaService.getCategoria(idCategoria);
+
+        if (categoriaOpt.isEmpty()) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    messageSource.getMessage(
+                            "categoria.error01",
+                            null,
+                            Locale.getDefault()
+                    )
+            );
+
+            return "redirect:/categoria/listado";
+        }
+
+        model.addAttribute("categoria", categoriaOpt.get());
+
+        return "/categoria/modifica";
     }
 
     @PostMapping("/guardar")
