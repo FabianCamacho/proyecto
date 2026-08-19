@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between align-items-center">
 
             <h2 class="fw-bold">
-                Gestión de Productos
+                [[#{producto.gestion}]]
             </h2>
 
             <button type="button"
@@ -17,7 +17,7 @@
 
                 <i class="fas fa-plus-circle me-2"></i>
 
-                Nuevo Producto
+                [[#{producto.nuevo}]]
 
             </button>
 
@@ -49,7 +49,7 @@
                     <button type="button"
                             class="btn-close btn-close-white"
                             data-bs-dismiss="modal"
-                            aria-label="Cerrar"></button>
+                            aria-label="[[#{accion.cerrar}]]"></button>
 
                 </div>
 
@@ -71,13 +71,19 @@
                                     class="form-select"
                                     required>
 
-                                <option value="" selected disabled>
-                                    Seleccione una categoría
+                                <option value=""
+                                        selected
+                                        disabled>
+
+                                    [[#{producto.seleccioneCategoria}]]
+
                                 </option>
 
                                 <option th:each="c : ${categorias}"
                                         th:value="${c.idCategoria}">
+
                                     [[${c.descripcion}]]
+
                                 </option>
 
                             </select>
@@ -169,13 +175,14 @@
 
                             <img id="blah"
                                  src="#"
-                                 alt="Imagen del producto"
+                                 th:alt="#{producto.imagen}"
                                  height="200"
                                  class="mt-2 img-fluid rounded">
 
                         </div>
 
                     </div>
+
                     <div class="modal-footer">
 
                         <button type="button"
@@ -202,7 +209,9 @@
                 </form>
 
             </div>
+
         </div>
+
     </div>
 
 </section>
@@ -229,13 +238,13 @@
 
                             <i class="fas fa-box-open me-2"></i>
 
-                            Inventario de Productos
+                            [[#{producto.inventario}]]
 
                         </h4>
 
                         <input type="text"
                                class="form-control w-25"
-                               placeholder="Buscar producto...">
+                               th:placeholder="#{producto.buscar}">
 
                     </div>
 
@@ -255,26 +264,26 @@
 
                                         <th>#</th>
 
-                                        <th>Imagen</th>
+                                        <th>[[#{producto.imagen}]]</th>
 
-                                        <th>Producto</th>
+                                        <th>[[#{producto.descripcion}]]</th>
 
-                                        <th>Categoría</th>
+                                        <th>[[#{producto.categoria}]]</th>
 
                                         <th class="text-end">
-                                            Precio
+                                            [[#{producto.precio}]]
                                         </th>
 
                                         <th class="text-center">
-                                            Existencias
+                                            [[#{producto.existencias}]]
                                         </th>
 
                                         <th class="text-center">
-                                            Estado
+                                            [[#{producto.estado}]]
                                         </th>
 
                                         <th class="text-center">
-                                            Acciones
+                                            [[#{producto.acciones}]]
                                         </th>
 
                                     </tr>
@@ -293,7 +302,7 @@
 
                                             <img th:if="${p.rutaImagen != null and !p.rutaImagen.isEmpty()}"
                                                  th:src="@{${p.rutaImagen}}"
-                                                 alt="Producto"
+                                                 th:alt="#{producto.imagen}"
                                                  width="70"
                                                  height="70"
                                                  class="rounded object-fit-cover">
@@ -301,7 +310,7 @@
                                             <span th:if="${p.rutaImagen == null or p.rutaImagen.isEmpty()}"
                                                   class="text-muted">
 
-                                                Sin imagen
+                                                [[#{producto.sinImagen}]]
 
                                             </span>
 
@@ -335,7 +344,7 @@
                                             <span th:if="${p.categoria == null}"
                                                   class="text-muted">
 
-                                                Sin categoría
+                                                [[#{producto.sinCategoria}]]
 
                                             </span>
 
@@ -343,7 +352,7 @@
 
                                         <td class="text-end">
 
-                                            [[${#numbers.formatCurrency(p.precio)}]]
+                                            ₡[[${#numbers.formatDecimal(p.precio, 1, 'COMMA', 2, 'POINT')}]]
 
                                         </td>
 
@@ -358,14 +367,14 @@
                                             <span th:if="${p.activo}"
                                                   class="badge bg-success">
 
-                                                Activo
+                                                [[#{texto.activo}]]
 
                                             </span>
 
                                             <span th:unless="${p.activo}"
                                                   class="badge bg-danger">
 
-                                                Inactivo
+                                                [[#{texto.inactivo}]]
 
                                             </span>
 
@@ -377,7 +386,8 @@
 
                                                 <a th:href="@{/producto/modificar/{idProducto}(idProducto=${p.idProducto})}"
                                                    class="btn btn-warning btn-sm"
-                                                   sec:authorize="hasRole('ADMIN')">
+                                                   sec:authorize="hasRole('ADMIN')"
+                                                   th:title="#{accion.actualizar}">
 
                                                     <i class="fas fa-edit"></i>
 
@@ -386,6 +396,7 @@
                                                 <button type="button"
                                                         class="btn btn-danger btn-sm"
                                                         sec:authorize="hasRole('ADMIN')"
+                                                        th:title="#{accion.eliminar}"
                                                         th:onclick="'confirmarEliminar(' + ${p.idProducto} + ')'">
 
                                                     <i class="fas fa-trash"></i>
@@ -411,7 +422,7 @@
 
                         <i class="fas fa-info-circle me-2"></i>
 
-                        No hay productos registrados.
+                        [[#{producto.sinRegistros}]]
 
                     </div>
 
@@ -423,98 +434,27 @@
 
     </div>
 
-</section>
+    <div class="col-md-3">
 
-<td class="text-center">
+        <div class="card text-center bg-primary text-white shadow">
 
-    [[${p.existencias}]]
+            <div class="card-body">
 
-</td>
+                <h4>[[#{producto.total}]]</h4>
 
-<td class="text-center">
+                <h2 class="display-5">
 
-    <span th:if="${p.activo}"
-          class="badge bg-success">
+                    <i class="fas fa-boxes-stacked"></i>
 
-        Activo
+                    [[${totalProductos}]]
 
-    </span>
+                </h2>
 
-    <span th:unless="${p.activo}"
-          class="badge bg-danger">
-
-        Inactivo
-
-    </span>
-
-</td>
-
-<td class="text-center">
-
-    <a th:href="@{/producto/modificar/{idProducto}(idProducto=${p.idProducto})}"
-       class="btn btn-outline-primary btn-sm"
-       sec:authorize="hasRole('ADMIN')">
-
-        <i class="fas fa-pen"></i>
-
-    </a>
-
-    <button type="button"
-            class="btn btn-outline-danger btn-sm"
-            sec:authorize="hasRole('ADMIN')"
-            data-bs-toggle="modal"
-            data-bs-target="#confirmModal"
-            th:data-bs-id="${p.idProducto}"
-            th:data-bs-descripcion="${p.descripcion}">
-
-        <i class="fas fa-trash"></i>
-
-    </button>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<div class="text-center p-4"
-     th:if="${productos == null or productos.empty}">
-
-    <h5>No hay productos registrados.</h5>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-    <div class="card text-center bg-primary text-white shadow">
-
-        <div class="card-body">
-
-            <h4>Total de Productos</h4>
-
-            <h2 class="display-5">
-
-                <i class="fas fa-boxes-stacked"></i>
-
-                [[${totalProductos}]]
-
-            </h2>
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 </div>
 
@@ -729,7 +669,7 @@
 
                                 <div class="mb-3">
 
-                                    <label for="imagen">
+                                    <label for="imagen" class="form-label">
 
                                         [[#{producto.imagen}]]
 
@@ -738,18 +678,11 @@
                                     <input class="form-control"
                                            type="file"
                                            name="imagenFile"
-                                           onchange="mostrarImagen(this);"/>
+                                           id="imagen"/>
 
-
-                                    <div class="mt-3 text-center">
-
-                                        <img id="blah"
-                                             th:src="@{${producto.rutaImagen}}"
-                                             alt="Imagen del producto"
-                                             height="200"
-                                             class="img-fluid rounded"/>
-
-                                    </div>
+                                    <small class="text-muted">
+                                        Puedes dejar este campo vacío.
+                                    </small>
 
                                 </div>
 
@@ -791,11 +724,9 @@
                 <form th:action="@{/producto/eliminar}"
                       method="post">
 
-
                     <input type="hidden"
                            name="idProducto"
                            id="modalId"/>
-
 
                     <!-- HEADER -->
 
@@ -810,16 +741,14 @@
 
                         </h5>
 
-
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
-                                aria-label="Cerrar">
+                                th:attr="aria-label=#{accion.cerrar}">
 
                         </button>
 
                     </div>
-
 
                     <!-- CUERPO -->
 
@@ -841,7 +770,6 @@
 
                     </div>
 
-
                     <!-- FOOTER -->
 
                     <div class="modal-footer">
@@ -855,7 +783,6 @@
 
                         </button>
 
-
                         <button type="button"
                                 class="btn btn-secondary"
                                 data-bs-dismiss="modal">
@@ -867,7 +794,6 @@
                         </button>
 
                     </div>
-
 
                 </form>
 

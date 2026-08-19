@@ -77,7 +77,7 @@
                                                            th:href="@{/}">
 
                                                             <i class="fas fa-house me-2"></i>
-                                                            Inicio
+                                                            [[#{plantilla.inicio}]]
 
                                                         </a>
 
@@ -92,7 +92,7 @@
                                                            th:href="@{/producto/listado}">
 
                                                             <i class="fas fa-box me-2"></i>
-                                                            Productos
+                                                            [[#{plantilla.productos}]]
 
                                                         </a>
 
@@ -105,12 +105,11 @@
                                                            th:href="@{/factura/listado}">
 
                                                             <i class="fas fa-cart-shopping me-2"></i>
-                                                            Comprar
+                                                            [[#{plantilla.comprar}]]
 
                                                         </a>
 
                                                     </li>
-
 
                                                     <!-- CATEGORÍAS -->
                                                     <!-- SOLO ADMIN -->
@@ -121,37 +120,23 @@
                                                            th:href="@{/categoria/listado}">
 
                                                             <i class="fas fa-list me-2"></i>
-                                                            Categorías
+                                                            [[#{plantilla.categorias}]]
 
                                                         </a>
 
                                                     </li>
 
-                                                    <!-- VENTAS -->
-                                                    <!-- ADMIN Y VENDEDOR -->
-                                                    <li class="nav-item"
-                                                        sec:authorize="hasAnyRole('ADMIN', 'VENDEDOR')">
-
-                                                        <a class="nav-link"
-                                                           th:href="@{/consultas/listado}">
-
-                                                            <i class="fas fa-cash-register me-2"></i>
-                                                            Ventas
-
-                                                        </a>
-
-                                                    </li>
+                                                    
 
                                                     <!-- REPORTES -->
                                                     <!-- SOLO ADMIN -->
-                                                
                                                     <li class="nav-item">
 
                                                         <a class="nav-link"
                                                            th:href="@{/consultas/listado}">
 
                                                             <i class="fas fa-chart-column me-2"></i>
-                                                            Reportes
+                                                            [[#{plantilla.reportes}]]
 
                                                         </a>
 
@@ -184,28 +169,28 @@
 
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                   th:href="@{/(lang=es)}">
+                                                                   th:href="@{''(lang=es)}">
                                                                     Español
                                                                 </a>
                                                             </li>
 
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                   th:href="@{/(lang=en)}">
+                                                                   th:href="@{''(lang=en)}">
                                                                     English
                                                                 </a>
                                                             </li>
 
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                   th:href="@{/(lang=fr)}">
-                                                                    Française
+                                                                   th:href="@{''(lang=fr)}">
+                                                                    Français
                                                                 </a>
                                                             </li>
 
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                   th:href="@{/(lang=pt)}">
+                                                                   th:href="@{''(lang=pt)}">
                                                                     Português
                                                                 </a>
                                                             </li>
@@ -226,7 +211,7 @@
                                                            th:href="@{/sesion/listado}">
 
                                                             <i class="fas fa-user me-2"></i>
-                                                            Login
+                                                            [[#{login.login}]]
 
                                                         </a>
 
@@ -281,7 +266,7 @@
 
                                                                         <i class="fas fa-right-from-bracket me-2"></i>
 
-                                                                        Cerrar sesión
+                                                                        [[#{login.logout}]]
 
                                                                     </button>
 
@@ -315,9 +300,7 @@
 
                                         <p class="mb-0">
 
-                                            2026 &nbsp;&nbsp;
-                                            SUPER STING EXPRESS &nbsp;&nbsp;
-                                            TODOS LOS DERECHOS RESERVADOS
+                                            [[#{plantilla.derechos}]]
 
                                         </p>
 
@@ -432,8 +415,3 @@
                                     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
                                 </div>
-
-
-                            </body>
-
-                            </html>

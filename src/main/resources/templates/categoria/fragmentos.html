@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between align-items-center">
 
             <h2 class="fw-bold">
-                Gestión de Categorías
+                [[#{categoria.gestion}]]
             </h2>
 
             <!-- SOLO ADMIN PUEDE AGREGAR -->
@@ -22,7 +22,7 @@
 
                 <i class="fas fa-plus-circle me-2"></i>
 
-                Nueva Categoría
+                [[#{categoria.nueva}]]
 
             </button>
 
@@ -55,14 +55,14 @@
 
                         <i class="fas fa-folder-plus me-2"></i>
 
-                        Nueva Categoría
+                        [[#{categoria.nueva}]]
 
                     </h5>
 
                     <button type="button"
                             class="btn-close btn-close-white"
                             data-bs-dismiss="modal"
-                            aria-label="Cerrar">
+                            th:attr="aria-label=#{accion.cerrar}">
 
                     </button>
 
@@ -93,7 +93,7 @@
                             <input type="text"
                                    name="descripcion"
                                    class="form-control"
-                                   placeholder="Ingrese la categoría"
+                                   th:placeholder="#{categoria.ingrese}"
                                    maxlength="50"
                                    required>
 
@@ -145,7 +145,7 @@
 
                             <img id="blah"
                                  src="#"
-                                 alt="Vista previa"
+                                 th:alt="#{categoria.vista_previa}"
                                  class="img-thumbnail"
                                  style="max-height: 200px;">
 
@@ -190,129 +190,185 @@
 
 </section>
 
-<!-- fragmento 2 para el listado de categorias -->
-<section th:fragment="listado" class="container py-4">
+    <!-- fragmento 2 para el listado de categorias -->
+    <section th:fragment="listado" class="container py-4">
 
-    <div class="row">
+        <div class="row">
 
-        <div class="col-md-9">
+            <div class="col-md-9">
 
-            <div class="card shadow">
+                <div class="card shadow">
 
-                <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary text-white">
 
-                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
 
-                        <h4 class="mb-0">
-                            <i class="fas fa-list me-2"></i>
-                            Categorías Registradas
+                            <h4 class="mb-0">
+
+                                <i class="fas fa-list me-2"></i>
+
+                                [[#{categoria.listado_registradas}]]
+
+                            </h4>
+
+                            <input type="text"
+                                   class="form-control w-25"
+                                   th:placeholder="#{categoria.buscar}">
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div th:if="${categorias != null and !categorias.empty}">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead class="table-light">
+
+                                    <tr>
+
+                                        <th>#</th>
+
+                                        <th>[[#{categoria.imagen}]]</th>
+
+                                        <th>[[#{categoria.descripcion}]]</th>
+
+                                        <th class="text-center">
+                                            [[#{categoria.activo}]]
+                                        </th>
+
+                                        <th class="text-center">
+                                            [[#{accion.agregar}]] / [[#{accion.actualizar}]]
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr th:each="c : ${categorias}">
+
+                                        <td>
+                                            [[${c.idCategoria}]]
+                                        </td>
+
+                                        <td>
+
+                                            <img th:if="${c.rutaImagen != null and !c.rutaImagen.isEmpty()}"
+                                                 th:src="${c.rutaImagen}"
+                                                 width="70"
+                                                 height="70"
+                                                 class="rounded"
+                                                 style="object-fit: cover;"
+                                                 th:alt="#{categoria.imagen_alt}">
+
+                                            <span th:if="${c.rutaImagen == null or c.rutaImagen.isEmpty()}"
+                                                  class="text-muted">
+
+                                                [[#{categoria.sin_imagen}]]
+
+                                            </span>
+
+                                        </td>
+
+                                        <td>
+
+                                            <strong>
+                                                [[${c.descripcion}]]
+                                            </strong>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <span th:if="${c.activo}"
+                                                  class="badge bg-success">
+
+                                                [[#{categoria.activa}]]
+
+                                            </span>
+
+                                            <span th:unless="${c.activo}"
+                                                  class="badge bg-danger">
+
+                                                [[#{categoria.inactiva}]]
+
+                                            </span>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <!-- EDITAR -->
+
+                                            <a th:href="@{/categoria/modificar/{id}(id=${c.idCategoria})}"
+                                               class="btn btn-outline-primary btn-sm"
+                                               th:title="#{accion.actualizar}">
+
+                                                <i class="fas fa-pen"></i>
+
+                                            </a>
+
+                                            <!-- ELIMINAR -->
+
+                                            <button type="button"
+                                                    class="btn btn-outline-danger btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal"
+                                                    th:data-bs-id="${c.idCategoria}"
+                                                    th:data-bs-descripcion="${c.descripcion}"
+                                                    th:title="#{accion.eliminar}">
+
+                                                <i class="fas fa-trash"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <div class="text-center p-4"
+                             th:if="${categorias == null or categorias.empty}">
+
+                            <h5>
+                                [[#{categoria.sin_registros}]]
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TOTAL DE CATEGORÍAS -->
+            <div class="col-md-3">
+
+                <div class="card text-center bg-primary text-white shadow">
+
+                    <div class="card-body">
+
+                        <h4>
+                            [[#{categoria.total_registradas}]]
                         </h4>
 
-                        <input type="text"
-                               class="form-control w-25"
-                               placeholder="Buscar categoría...">
+                        <h2 class="display-5">
 
-                    </div>
+                            <i class="fas fa-list"></i>
 
-                </div>
+                            [[${totalCategorias}]]
 
-                <div class="card-body">
-
-                    <div th:if="${categorias != null and !categorias.empty}">
-
-                        <table class="table table-hover align-middle">
-
-                            <thead class="table-light">
-
-                                <tr>
-                                    <th>#</th>
-                                    <th>Imagen</th>
-                                    <th>Categoría</th>
-                                    <th class="text-center">Estado</th>
-                                    <th class="text-center">Acciones</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr th:each="c : ${categorias}">
-
-                                    <td>
-                                        [[${c.idCategoria}]]
-                                    </td>
-
-                                    <td>
-
-                                        <img th:if="${c.rutaImagen != null and !c.rutaImagen.isEmpty()}"
-                                             th:src="${c.rutaImagen}"
-                                             width="70"
-                                             height="70"
-                                             class="rounded"
-                                             style="object-fit: cover;"
-                                             alt="Categoría">
-
-                                        <span th:if="${c.rutaImagen == null or c.rutaImagen.isEmpty()}"
-                                              class="text-muted">
-                                            Sin imagen
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-                                        <strong>[[${c.descripcion}]]</strong>
-                                    </td>
-
-                                    <td class="text-center">
-
-                                        <span th:if="${c.activo}"
-                                              class="badge bg-success">
-                                            Activa
-                                        </span>
-
-                                        <span th:unless="${c.activo}"
-                                              class="badge bg-danger">
-                                            Inactiva
-                                        </span>
-
-                                    </td>
-
-                                    <td class="text-center">
-
-                                        <!-- EDITAR -->
-                                        <a th:href="@{/categoria/modificar/{id}(id=${c.idCategoria})}"
-                                           class="btn btn-outline-primary btn-sm">
-
-                                            <i class="fas fa-pen"></i>
-
-                                        </a>
-
-                                        <!-- ELIMINAR -->
-                                        <button type="button"
-                                                class="btn btn-outline-danger btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#confirmModal"
-                                                th:data-bs-id="${c.idCategoria}"
-                                                th:data-bs-descripcion="${c.descripcion}">
-
-                                            <i class="fas fa-trash"></i>
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                    <div class="text-center p-4"
-                         th:if="${categorias == null or categorias.empty}">
-
-                        <h5>No hay categorías registradas.</h5>
+                        </h2>
 
                     </div>
 
@@ -322,34 +378,9 @@
 
         </div>
 
-        <!-- TOTAL DE CATEGORÍAS -->
-        <div class="col-md-3">
+    </section>
 
-            <div class="card text-center bg-primary text-white shadow">
-
-                <div class="card-body">
-
-                    <h4>Total de Categorías</h4>
-
-                    <h2 class="display-5">
-
-                        <i class="fas fa-list"></i>
-
-                        [[${totalCategorias}]]
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- 3 Fragmento que se utiliza en la página modifica.html -->
+    <!-- 3. Fragmento utilizado en la página modifica.html -->
 <section th:fragment="editar">
 
     <div class="row">
@@ -364,38 +395,35 @@
                   class="was-validated"
                   enctype="multipart/form-data">
 
-                <!-- Datos ocultos -->
+                <!-- DATOS OCULTOS -->
                 <input type="hidden"
-                       name="idCategoria"
-                       th:field="*{idCategoria}"/>
+                       th:field="*{idCategoria}">
 
                 <input type="hidden"
-                       name="rutaImagen"
-                       th:field="*{rutaImagen}"/>
+                       th:field="*{rutaImagen}">
 
 
                 <!-- BOTONES -->
                 <div class="row py-4 mb-4 bg-light">
 
-                    <div class="col-md-4 d-grid">
+                    <div class="col-md-6 d-grid">
 
                         <a th:href="@{/categoria/listado}"
                            class="btn btn-primary">
 
-                            <i class="fas fa-arrow-left"></i>
+                            <i class="fas fa-arrow-left me-2"></i>
                             [[#{accion.regresar}]]
 
                         </a>
 
                     </div>
 
-
-                    <div class="col-md-4 d-grid">
+                    <div class="col-md-6 d-grid">
 
                         <button type="submit"
                                 class="btn btn-success">
 
-                            <i class="fas fa-check"></i>
+                            <i class="fas fa-save me-2"></i>
                             [[#{accion.guardar}]]
 
                         </button>
@@ -427,7 +455,6 @@
 
                             <div class="card-body">
 
-
                                 <!-- DESCRIPCIÓN -->
                                 <div class="mb-3">
 
@@ -441,10 +468,9 @@
                                     <input type="text"
                                            class="form-control"
                                            id="descripcion"
-                                           name="descripcion"
                                            th:field="*{descripcion}"
                                            maxlength="50"
-                                           required/>
+                                           required>
 
                                 </div>
 
@@ -454,9 +480,8 @@
 
                                     <input class="form-check-input"
                                            type="checkbox"
-                                           name="activo"
                                            id="activo"
-                                           th:field="*{activo}"/>
+                                           th:field="*{activo}">
 
                                     <label class="form-check-label"
                                            for="activo">
@@ -482,7 +507,8 @@
                                            type="file"
                                            name="imagenFile"
                                            id="imagen"
-                                           onchange="mostrarImagen(this);"/>
+                                           accept="image/*"
+                                           onchange="mostrarImagen(this);">
 
                                 </div>
 
@@ -491,13 +517,12 @@
                                 <div class="text-center">
 
                                     <img id="blah"
-                                         th:src="@{${categoria.rutaImagen}}"
+                                         th:src="${categoria.rutaImagen}"
                                          alt="Imagen de categoría"
                                          class="img-thumbnail"
-                                         style="max-height: 200px;"/>
+                                         style="max-height: 200px;">
 
                                 </div>
-
 
                             </div>
 
@@ -515,100 +540,117 @@
 
 </section>
 
-<!-- 4. Fragmento para confirmar que se desea eliminar una categoría -->
-<section th:fragment="confirmarEliminar">
+        <!-- 4. Fragmento para confirmar que se desea eliminar una categoría -->
+    <section th:fragment="confirmarEliminar">
 
-    <div class="modal fade"
-         id="confirmModal"
-         tabindex="-1"
-         aria-labelledby="modalLabel"
-         aria-hidden="true">
+        <div class="modal fade"
+             id="confirmModal"
+             tabindex="-1"
+             aria-labelledby="modalLabel"
+             aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered">
 
-            <div class="modal-content">
+                <div class="modal-content">
 
-                <form th:action="@{/categoria/eliminar}"
-                      method="post">
+                    <form th:action="@{/categoria/eliminar}"
+                          method="post">
 
-                    <!-- ID de la categoría que se va a eliminar -->
-                    <input type="hidden"
-                           name="idCategoria"
-                           id="modalId"/>
+                        <input type="hidden"
+                               name="idCategoria"
+                               id="modalId"/>
 
+                        <div class="modal-header bg-warning text-white">
 
-                    <!-- ENCABEZADO -->
-                    <div class="modal-header bg-warning text-white">
+                            <h5 class="modal-title"
+                                id="modalLabel">
 
-                        <h5 class="modal-title"
-                            id="modalLabel">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i>
 
-                            <i class="fa-solid fa-circle-exclamation me-2"></i>
+                                [[#{accion.confirmar}]]
 
-                            [[#{accion.confirmar}]]
+                            </h5>
 
-                        </h5>
+                            <button type="button"
+                                    class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"
+                                    th:attr="aria-label=#{accion.cerrar}">
+                            </button>
 
-                        <button type="button"
-                                class="btn-close btn-close-white"
-                                data-bs-dismiss="modal"
-                                aria-label="Cerrar">
-                        </button>
+                        </div>
 
-                    </div>
+                        <div class="modal-body">
 
+                            <p>
+                                [[#{accion.confirmar.texto1}]]
+                                <strong id="modalDescripcion"></strong>?
+                            </p>
 
-                    <!-- MENSAJE -->
-                    <div class="modal-body">
+                            <h6>
+                                [[#{accion.confirmar.texto2}]]
+                            </h6>
 
-                        <p>
+                        </div>
 
-                            [[#{accion.confirmar.texto1}]]
+                        <div class="modal-footer">
 
-                            <strong id="modalDescripcion"></strong>?
+                            <button type="submit"
+                                    class="btn btn-danger">
 
-                        </p>
+                                <i class="fa-solid fa-trash me-2"></i>
+                                [[#{accion.eliminar}]]
 
-                        <h6>
+                            </button>
 
-                            [[#{accion.confirmar.texto2}]]
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
 
-                        </h6>
+                                <i class="fa-solid fa-xmark me-2"></i>
+                                [[#{accion.cerrar}]]
 
-                    </div>
+                            </button>
 
+                        </div>
 
-                    <!-- BOTONES -->
-                    <div class="modal-footer">
+                    </form>
 
-                        <button type="submit"
-                                class="btn btn-danger">
-
-                            <i class="fa-solid fa-trash me-2"></i>
-
-                            [[#{accion.eliminar}]]
-
-                        </button>
-
-
-                        <button type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal">
-
-                            <i class="fa-solid fa-xmark me-2"></i>
-
-                            [[#{accion.cerrar}]]
-
-                        </button>
-
-                    </div>
-
-                </form>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT PARA CONFIRMAR ELIMINACIÓN -->
+    <!-- ========================================================= -->
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const confirmModal = document.getElementById('confirmModal');
+
+            if (confirmModal) {
+
+                confirmModal.addEventListener('show.bs.modal', function (event) {
+
+                    const button = event.relatedTarget;
+
+                    const id = button.getAttribute('data-bs-id');
+                    const descripcion = button.getAttribute('data-bs-descripcion');
+
+                    document.getElementById('modalId').value = id;
+
+                    document.getElementById('modalDescripcion').textContent = descripcion;
+
+                });
+
+            }
+
+        });
+
+    </script>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -31,11 +31,16 @@ public class CategoriaController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
+
         var categorias = categoriaService.getCategorias(false);
+
         model.addAttribute("categorias", categorias);
         model.addAttribute("totalCategorias", categorias.size());
-        return "/categoria/listado";
 
+        // Objeto necesario para el formulario de agregar categoría
+        model.addAttribute("categoria", new Categoria());
+
+        return "/categoria/listado";
     }
 
     @GetMapping("/modificar/{idCategoria}")
@@ -66,10 +71,19 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@Valid Categoria categoria, @RequestParam MultipartFile imagenFile, RedirectAttributes redirectAttributes) {
+    public String guardar(@Valid Categoria categoria,
+            RedirectAttributes redirectAttributes) {
 
-        categoriaService.save(categoria, imagenFile);
-        redirectAttributes.addFlashAttribute("todoOk", messageSource.getMessage("mensaje.actualizado", null, Locale.getDefault()));
+        categoriaService.save(categoria);
+
+        redirectAttributes.addFlashAttribute(
+                "todoOk",
+                messageSource.getMessage(
+                        "mensaje.actualizado",
+                        null,
+                        Locale.getDefault()
+                )
+        );
 
         return "redirect:/categoria/listado";
     }

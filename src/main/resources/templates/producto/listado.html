@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:th="http://www.thymeleaf.org">
 
     <head th:replace="~{general/fragmentos :: head}"></head>
 
     <body>
 
         <header th:replace="~{general/fragmentos :: header}"></header>
-
-        <section class="container mt-4">
-
-            <h2 class="text-center fw-bold mb-4">
-                Gestión de Productos
-            </h2>
-
-        </section>
 
         <section th:replace="~{producto/fragmentos :: agregar}"></section>
 
@@ -27,7 +18,8 @@
         <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
-
+        
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     </body>
 
 </html>

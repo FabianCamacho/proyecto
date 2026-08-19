@@ -16,8 +16,11 @@
                 <div class="card-header bg-primary text-white">
 
                     <h3 class="mb-0">
+
                         <i class="fas fa-cart-shopping me-2"></i>
-                        Realizar Compra
+
+                        [[#{factura.realizar_compra}]]
+
                     </h3>
 
                 </div>
@@ -27,7 +30,9 @@
                     <div th:if="${productos != null and !productos.empty}">
 
                         <h4 class="mb-3">
-                            Productos disponibles
+
+                            [[#{factura.productos_disponibles}]]
+
                         </h4>
 
                         <div class="row">
@@ -40,7 +45,7 @@
                                     <div class="text-center p-3">
 
                                         <img th:src="@{${p.rutaImagen}}"
-                                             alt="Producto"
+                                             th:alt="#{factura.producto_alt}"
                                              class="img-fluid"
                                              style="height:150px; object-fit:contain;">
 
@@ -57,12 +62,19 @@
                                         </p>
 
                                         <h5 class="text-primary">
+
                                             [[${#numbers.formatCurrency(p.precio)}]]
+
                                         </h5>
 
                                         <p>
-                                            Disponibles:
-                                            <strong>[[${p.existencias}]]</strong>
+
+                                            [[#{factura.disponibles}]]:
+
+                                            <strong>
+                                                [[${p.existencias}]]
+                                            </strong>
+
                                         </p>
 
                                         <form th:action="@{/factura/agregar}"
@@ -86,7 +98,8 @@
                                                         class="btn btn-success">
 
                                                     <i class="fas fa-cart-plus"></i>
-                                                    Agregar
+
+                                                    [[#{factura.agregar}]]
 
                                                 </button>
 
@@ -108,7 +121,7 @@
                          class="text-center p-4">
 
                         <h5>
-                            No hay productos disponibles.
+                            [[#{factura.no_productos}]]
                         </h5>
 
                     </div>
@@ -129,8 +142,11 @@
                 <div class="card-header bg-success text-white">
 
                     <h4 class="mb-0">
+
                         <i class="fas fa-shopping-cart me-2"></i>
-                        Mi Carrito
+
+                        [[#{factura.mi_carrito}]]
+
                     </h4>
 
                 </div>
@@ -147,22 +163,24 @@
 
                                     <tr>
 
-                                        <th>Producto</th>
-
-                                        <th class="text-end">
-                                            Precio
-                                        </th>
-
-                                        <th class="text-center">
-                                            Cantidad
+                                        <th>
+                                            [[#{factura.producto}]]
                                         </th>
 
                                         <th class="text-end">
-                                            Subtotal
+                                            [[#{factura.precio}]]
                                         </th>
 
                                         <th class="text-center">
-                                            Acción
+                                            [[#{factura.cantidad}]]
+                                        </th>
+
+                                        <th class="text-end">
+                                            [[#{factura.subtotal}]]
+                                        </th>
+
+                                        <th class="text-center">
+                                            [[#{factura.accion}]]
                                         </th>
 
                                     </tr>
@@ -174,21 +192,29 @@
                                     <tr th:each="item : ${session.carrito}">
 
                                         <td>
+
                                             <strong>
                                                 [[${item.descripcion}]]
                                             </strong>
+
                                         </td>
 
                                         <td class="text-end">
+
                                             [[${#numbers.formatCurrency(item.precio)}]]
+
                                         </td>
 
                                         <td class="text-center">
+
                                             [[${item.cantidad}]]
+
                                         </td>
 
                                         <td class="text-end">
+
                                             [[${#numbers.formatCurrency(item.subtotal)}]]
+
                                         </td>
 
                                         <td class="text-center">
@@ -201,7 +227,8 @@
                                                        th:value="${item.idProducto}"/>
 
                                                 <button type="submit"
-                                                        class="btn btn-outline-danger btn-sm">
+                                                        class="btn btn-outline-danger btn-sm"
+                                                        th:title="#{accion.eliminar}">
 
                                                     <i class="fas fa-trash"></i>
 
@@ -228,7 +255,8 @@
                                         class="btn btn-success btn-lg">
 
                                     <i class="fas fa-credit-card me-2"></i>
-                                    Pagar y generar factura
+
+                                    [[#{factura.pagar}]]
 
                                 </button>
 
@@ -244,11 +272,13 @@
                         <i class="fas fa-cart-shopping fa-3x mb-3"></i>
 
                         <h5>
-                            El carrito está vacío.
+                            [[#{factura.carrito_vacio}]]
                         </h5>
 
                         <p class="text-muted">
-                            Agregue productos para realizar una compra.
+
+                            [[#{factura.agregar_productos}]]
+
                         </p>
 
                     </div>
