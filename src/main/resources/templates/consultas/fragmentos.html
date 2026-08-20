@@ -150,131 +150,126 @@
             <!-- CONSULTA POR RANGO DE PRECIOS -->
             <!-- ================================================= -->
 
-            <div class="card mb-4">
+            <form method="post">
 
-                <div class="card-header">
+                <div class="card mb-4">
 
-                    <h5 class="mb-0">
-                        <i class="fas fa-filter me-2"></i>
-                        Consulta por rango de precios
-                    </h5>
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+                            <i class="fas fa-filter me-2"></i>
+                            Consulta por rango de precios
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-3">
+
+                            <!-- PRECIO MÍNIMO -->
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Precio mínimo
+                                </label>
+
+                                <input type="number"
+                                       name="precioInf"
+                                       class="form-control"
+                                       step="0.01"
+                                       min="0"
+                                       th:value="${precioInf}"
+                                       required>
+
+                            </div>
+
+
+                            <!-- PRECIO MÁXIMO -->
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Precio máximo
+                                </label>
+
+                                <input type="number"
+                                       name="precioSup"
+                                       class="form-control"
+                                       step="0.01"
+                                       min="0"
+                                       th:value="${precioSup}"
+                                       required>
+
+                            </div>
+
+
+                            <!-- CONSULTA DERIVADA -->
+
+                            <div class="col-md-4 d-flex align-items-end">
+
+                                <button type="submit"
+                                        class="btn btn-primary w-100"
+                                        formaction="/consultas/consultaDerivada">
+
+                                    <i class="fas fa-magnifying-glass me-2"></i>
+
+                                    Consulta derivada
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div class="card-body">
 
-                    <form class="row g-3"
-                          method="post">
+                <!-- ================================================= -->
+                <!-- OPCIONES DE CONSULTA -->
+                <!-- ================================================= -->
 
-                        <div class="col-md-4">
+                <div class="row mb-4">
 
-                            <label class="form-label">
-                                Precio mínimo
-                            </label>
+                    <!-- JPQL -->
 
-                            <input type="number"
-                                   name="precioInf"
-                                   class="form-control"
-                                   step="0.01"
-                                   min="0"
-                                   th:value="${precioInf}"
-                                   required>
-
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <label class="form-label">
-                                Precio máximo
-                            </label>
-
-                            <input type="number"
-                                   name="precioSup"
-                                   class="form-control"
-                                   step="0.01"
-                                   min="0"
-                                   th:value="${precioSup}"
-                                   required>
-
-                        </div>
-
-                        <div class="col-md-4 d-flex align-items-end">
-
-                            <button type="submit"
-                                    class="btn btn-primary w-100"
-                                    formaction="/consultas/consultaDerivada">
-
-                                <i class="fas fa-magnifying-glass me-2"></i>
-                                Consulta derivada
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- OPCIONES DE CONSULTA -->
-            <!-- ================================================= -->
-
-            <div class="row mb-4">
-
-                <div class="col-md-6">
-
-                    <form method="post"
-                          action="/consultas/consultaJPQL">
-
-                        <input type="hidden"
-                               name="precioInf"
-                               th:value="${precioInf}">
-
-                        <input type="hidden"
-                               name="precioSup"
-                               th:value="${precioSup}">
+                    <div class="col-md-6">
 
                         <button type="submit"
-                                class="btn btn-success w-100">
+                                class="btn btn-success w-100"
+                                formaction="/consultas/consultaJPQL">
 
                             <i class="fas fa-database me-2"></i>
+
                             Consulta JPQL
 
                         </button>
 
-                    </form>
+                    </div>
 
-                </div>
 
-                <div class="col-md-6">
+                    <!-- SQL -->
 
-                    <form method="post"
-                          action="/consultas/consultaSQL">
-
-                        <input type="hidden"
-                               name="precioInf"
-                               th:value="${precioInf}">
-
-                        <input type="hidden"
-                               name="precioSup"
-                               th:value="${precioSup}">
+                    <div class="col-md-6">
 
                         <button type="submit"
-                                class="btn btn-info w-100">
+                                class="btn btn-info w-100"
+                                formaction="/consultas/consultaSQL">
 
                             <i class="fas fa-table me-2"></i>
+
                             Consulta SQL
 
                         </button>
 
-                    </form>
+                    </div>
 
                 </div>
 
-            </div>
+            </form>
 
 
             <!-- ================================================= -->
